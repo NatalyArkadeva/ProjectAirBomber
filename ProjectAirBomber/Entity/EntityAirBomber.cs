@@ -1,22 +1,10 @@
-﻿namespace ProjectAirBomber
+﻿namespace ProjectAirBomber.Entity
 {
     /// <summary>
     /// Класс-сущность "Бомбардировщик"
     /// </summary>
-    public class EntityAirBomber
+    public class EntityAirBomber : EntityAirplane
     {
-        /// <summary>
-        /// Скорость
-        /// </summary>
-        public int Speed { get; private set; }
-        /// <summary>
-        /// Вес
-        /// </summary>
-        public double Weight { get; private set; }
-        /// <summary>
-        /// Основной цвет
-        /// </summary>
-        public Color BodyColor { get; private set; }
         /// <summary>
         /// Дополнительный цвет
         /// </summary>
@@ -33,13 +21,9 @@
         /// Наличие авиабомбы
         /// </summary>
         public bool AircraftBomb { get; private set; }
-        /// <summary>
-        /// Шаг перемещения бомбардировщика
-        /// </summary>
-        public double Step => Speed * 100 / Weight;
 
         /// <summary>
-        /// Инициализация полей объекта класса бомбардировщика
+        /// Конструктор объекта класса бомбардировщика
         /// </summary>
         /// <param name="speed"></param>
         /// <param name="weight"></param>
@@ -48,11 +32,8 @@
         /// <param name="airRefueling"></param>
         /// <param name="extraFuelTank"></param>
         /// <param name="aircraftBomb"></param>
-        public void Init(int speed, double weight, Color bodyColor, Color additionalColor, bool airRefueling, bool extraFuelTank, bool aircraftBomb)
+        public EntityAirBomber(int speed, double weight, Color bodyColor, Color additionalColor, bool airRefueling, bool extraFuelTank, bool aircraftBomb) : base(speed, weight, bodyColor)
         {
-            Speed = speed;
-            Weight = weight;
-            BodyColor = bodyColor;
             AdditionalColor = additionalColor;
             AirRefueling = airRefueling;
             ExtraFuelTank = extraFuelTank;

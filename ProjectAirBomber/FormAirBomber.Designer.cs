@@ -34,6 +34,9 @@
             buttonLeft = new Button();
             buttonDown = new Button();
             buttonRight = new Button();
+            buttonCreateAirplane = new Button();
+            comboBoxStrategy = new ComboBox();
+            buttonStrategyStep = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAirBomber).BeginInit();
             SuspendLayout();
             // 
@@ -42,18 +45,18 @@
             pictureBoxAirBomber.Dock = DockStyle.Fill;
             pictureBoxAirBomber.Location = new Point(0, 0);
             pictureBoxAirBomber.Name = "pictureBoxAirBomber";
-            pictureBoxAirBomber.Size = new Size(615, 365);
+            pictureBoxAirBomber.Size = new Size(854, 481);
             pictureBoxAirBomber.TabIndex = 0;
             pictureBoxAirBomber.TabStop = false;
             // 
             // buttonCreate
             // 
             buttonCreate.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            buttonCreate.Location = new Point(12, 330);
+            buttonCreate.Location = new Point(12, 444);
             buttonCreate.Name = "buttonCreate";
-            buttonCreate.Size = new Size(75, 23);
+            buttonCreate.Size = new Size(163, 25);
             buttonCreate.TabIndex = 1;
-            buttonCreate.Text = "Создать";
+            buttonCreate.Text = "Создать бомбардировщик";
             buttonCreate.UseVisualStyleBackColor = true;
             buttonCreate.Click += buttonCreate_Click;
             // 
@@ -61,7 +64,7 @@
             // 
             buttonUp.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             buttonUp.Image = Properties.Resources.arrowUp;
-            buttonUp.Location = new Point(527, 283);
+            buttonUp.Location = new Point(766, 399);
             buttonUp.Name = "buttonUp";
             buttonUp.Size = new Size(35, 35);
             buttonUp.TabIndex = 2;
@@ -72,7 +75,7 @@
             // 
             buttonLeft.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             buttonLeft.Image = Properties.Resources.arrowLeft;
-            buttonLeft.Location = new Point(486, 318);
+            buttonLeft.Location = new Point(725, 434);
             buttonLeft.Name = "buttonLeft";
             buttonLeft.Size = new Size(35, 35);
             buttonLeft.TabIndex = 3;
@@ -83,7 +86,7 @@
             // 
             buttonDown.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             buttonDown.Image = Properties.Resources.arrowDown;
-            buttonDown.Location = new Point(527, 318);
+            buttonDown.Location = new Point(766, 434);
             buttonDown.Name = "buttonDown";
             buttonDown.Size = new Size(35, 35);
             buttonDown.TabIndex = 4;
@@ -94,18 +97,52 @@
             // 
             buttonRight.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             buttonRight.Image = Properties.Resources.arrowRight;
-            buttonRight.Location = new Point(568, 318);
+            buttonRight.Location = new Point(807, 434);
             buttonRight.Name = "buttonRight";
             buttonRight.Size = new Size(35, 35);
             buttonRight.TabIndex = 5;
             buttonRight.UseVisualStyleBackColor = true;
             buttonRight.Click += buttonMove_Click;
             // 
+            // buttonCreateAirplane
+            // 
+            buttonCreateAirplane.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonCreateAirplane.Location = new Point(197, 444);
+            buttonCreateAirplane.Name = "buttonCreateAirplane";
+            buttonCreateAirplane.Size = new Size(125, 25);
+            buttonCreateAirplane.TabIndex = 6;
+            buttonCreateAirplane.Text = "Создать самолет";
+            buttonCreateAirplane.UseVisualStyleBackColor = true;
+            buttonCreateAirplane.Click += buttonCreateAirplane_Click;
+            // 
+            // comboBoxStrategy
+            // 
+            comboBoxStrategy.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxStrategy.FormattingEnabled = true;
+            comboBoxStrategy.Items.AddRange(new object[] { "К центру", "К краю" });
+            comboBoxStrategy.Location = new Point(725, 12);
+            comboBoxStrategy.Name = "comboBoxStrategy";
+            comboBoxStrategy.Size = new Size(121, 23);
+            comboBoxStrategy.TabIndex = 7;
+            // 
+            // buttonStrategyStep
+            // 
+            buttonStrategyStep.Location = new Point(771, 41);
+            buttonStrategyStep.Name = "buttonStrategyStep";
+            buttonStrategyStep.Size = new Size(75, 23);
+            buttonStrategyStep.TabIndex = 8;
+            buttonStrategyStep.Text = "Шаг";
+            buttonStrategyStep.UseVisualStyleBackColor = true;
+            buttonStrategyStep.Click += buttonStrategyStep_Click;
+            // 
             // FormAirBomber
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(615, 365);
+            ClientSize = new Size(854, 481);
+            Controls.Add(buttonStrategyStep);
+            Controls.Add(comboBoxStrategy);
+            Controls.Add(buttonCreateAirplane);
             Controls.Add(buttonRight);
             Controls.Add(buttonDown);
             Controls.Add(buttonLeft);
@@ -126,5 +163,8 @@
         private Button buttonLeft;
         private Button buttonDown;
         private Button buttonRight;
+        private Button buttonCreateAirplane;
+        private ComboBox comboBoxStrategy;
+        private Button buttonStrategyStep;
     }
 }

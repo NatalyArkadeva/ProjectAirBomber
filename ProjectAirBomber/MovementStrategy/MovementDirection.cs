@@ -1,9 +1,9 @@
-﻿namespace ProjectAirBomber
+﻿namespace ProjectAirBomber.MovementStrategy
 {
     /// <summary>
     /// Направление перемещения
     /// </summary>
-    public enum DirectionType
+    public enum MovementDirection
     {
         /// <summary>
         /// Вверх

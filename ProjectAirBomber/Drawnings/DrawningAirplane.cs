@@ -1,14 +1,16 @@
-﻿namespace ProjectAirBomber
+﻿using ProjectAirBomber.Entity;
+
+namespace ProjectAirBomber.Drawnings
 {
     /// <summary>
-    ///   Прорисовка и перемещение бомбардировщика
+    /// Прорисовка и перемещение самолета
     /// </summary>
-    public class DrawningAirBomber
+    public class DrawningAirplane
     {
         /// <summary>
         /// Класс - сущность
         /// </summary>
-        public EntityAirBomber? EntityAirBomber { get; private set; }
+        public EntityAirplane? EntityAirplane { get; protected set; }
         /// <summary>
         /// Ширина окна
         /// </summary>
@@ -20,38 +22,67 @@
         /// <summary>
         /// Левая коотдината прорисовки бомбардировщика
         /// </summary>
-        private int? _startPosX;
+        protected int? _startPosX;
         /// <summary>
         /// Верхняя координата прорисовки бомбардировщика
         /// </summary>
-        private int? _startPosY;
+        protected int? _startPosY;
         /// <summary>
         /// Ширина прорисовки бомбардировщика
         /// </summary>
-        private readonly int _drawningAirWidth = 105;
+        private readonly int _drawningAirWidth = 100;
         /// <summary>
         /// Высота прорисовки бомбардировщика
         /// </summary>
         private readonly int _drawingAirHeight = 96;
+        /// <summary>
+        /// Координата X объекта
+        /// </summary>
+        public int? GetPosX => _startPosX;
+        /// <summary>
+        /// Координата Y объекта
+        /// </summary>
+        public int? GetPosY => _startPosY;
+        /// <summary>
+        /// Ширина объекта
+        /// </summary>
+        public int GetWidth => _drawningAirWidth;
+        /// <summary>
+        /// Высота объекта
+        /// </summary>
+        public int GetHeight => _drawingAirHeight;
 
         /// <summary>
-        /// Инициализация полей
+        /// Пустой конструктор
         /// </summary>
-        /// <param name="speed"></param>
-        /// <param name="weight"></param>
-        /// <param name="bodyColor"></param>
-        /// <param name="additionalColor"></param>
-        /// <param name="airRefueling"></param>
-        /// <param name="extraFuelTank"></param>
-        /// <param name="aircraftBomb"></param>
-        public void Init(int speed, double weight, Color bodyColor, Color additionalColor, bool airRefueling, bool extraFuelTank, bool aircraftBomb)
+        private DrawningAirplane()
         {
-            EntityAirBomber = new EntityAirBomber();
-            EntityAirBomber.Init(speed, weight, bodyColor, additionalColor, airRefueling, extraFuelTank, aircraftBomb);
             _pictureWidth = null;
             _pictureHeight = null;
             _startPosX = null;
             _startPosY = null;
+        }
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="speed"></param>
+        /// <param name="weight"></param>
+        /// <param name="bodyColor"></param>
+        public DrawningAirplane(int speed, double weight, Color bodyColor) : this()
+        {
+            EntityAirplane = new EntityAirplane(speed, weight, bodyColor);
+        }
+
+        /// <summary>
+        /// Конструктор для наследников
+        /// </summary>
+        /// <param name="drawningAirWidth"></param>
+        /// <param name="drawingAirHeight"></param>
+        protected DrawningAirplane(int drawningAirWidth, int drawingAirHeight) : this()
+        {
+            _drawningAirWidth = drawningAirWidth;
+            _drawingAirHeight = drawingAirHeight;
         }
 
         /// <summary>
@@ -83,7 +114,7 @@
                 return;
             }
 
-            if (x > 0 && x < (_pictureWidth.Value - _drawningAirWidth) && y > 0 && y < (_pictureHeight.Value - _drawingAirHeight))
+            if (x > 0 && x < _pictureWidth.Value - _drawningAirWidth && y > 0 && y < _pictureHeight.Value - _drawingAirHeight)
             {
                 _startPosX = x;
                 _startPosY = y;
@@ -97,34 +128,34 @@
         /// <returns></returns>
         public bool Move(DirectionType direction)
         {
-            if (EntityAirBomber == null || !_startPosX.HasValue || !_startPosY.HasValue)
+            if (EntityAirplane == null || !_startPosX.HasValue || !_startPosY.HasValue)
             {
                 return false;
             }
             switch (direction)
             {
                 case DirectionType.Left:
-                    if (_startPosX.Value - EntityAirBomber.Step > 0)
+                    if (_startPosX.Value - EntityAirplane.Step > 0)
                     {
-                        _startPosX -= (int)EntityAirBomber.Step;
+                        _startPosX -= (int)EntityAirplane.Step;
                     }
                     return true;
                 case DirectionType.Right:
-                    if (_startPosX.Value + _drawningAirWidth + EntityAirBomber.Step < _pictureWidth.Value)
+                    if (_startPosX.Value + _drawningAirWidth + EntityAirplane.Step < _pictureWidth.Value)
                     {
-                        _startPosX += (int)EntityAirBomber.Step;
+                        _startPosX += (int)EntityAirplane.Step;
                     }
                     return true;
                 case DirectionType.Up:
-                    if (_startPosY.Value - EntityAirBomber.Step > 0)
+                    if (_startPosY.Value - EntityAirplane.Step > 0)
                     {
-                        _startPosY -= (int)EntityAirBomber.Step;
+                        _startPosY -= (int)EntityAirplane.Step;
                     }
                     return true;
                 case DirectionType.Down:
-                    if (_startPosY.Value + _drawingAirHeight + EntityAirBomber.Step < _pictureHeight.Value)
+                    if (_startPosY.Value + _drawingAirHeight + EntityAirplane.Step < _pictureHeight.Value)
                     {
-                        _startPosY += (int)EntityAirBomber.Step;
+                        _startPosY += (int)EntityAirplane.Step;
                     }
                     return true;
                 default:
@@ -136,9 +167,9 @@
         /// Прорисовка объекта
         /// </summary>
         /// <param name="g"></param>
-        public void Draw(Graphics g)
+        public virtual void Draw(Graphics g)
         {
-            if (EntityAirBomber == null || !_startPosX.HasValue || !_startPosY.HasValue)
+            if (EntityAirplane == null || !_startPosX.HasValue || !_startPosY.HasValue)
             {
                 return;
             }
@@ -155,9 +186,9 @@
             g.DrawPolygon(pen, bodyPoints);
             g.FillPolygon(brush, bodyPoints);
 
-            brush = new SolidBrush(EntityAirBomber.BodyColor);
+            Brush brushBody = new SolidBrush(EntityAirplane.BodyColor);
             g.DrawRectangle(pen, _startPosX.Value, _startPosY.Value + 40, 80, 16);
-            g.FillRectangle(brush, _startPosX.Value, _startPosY.Value + 40, 80, 16);
+            g.FillRectangle(brushBody, _startPosX.Value, _startPosY.Value + 40, 80, 16);
 
             //крыло
             Point[] wingPoints = new Point[]{
@@ -169,7 +200,7 @@
                 new Point(_startPosX.Value + 45, _startPosY.Value + 56),
             };
             g.DrawPolygon(pen, wingPoints);
-            g.FillPolygon(brush, wingPoints);
+            g.FillPolygon(brushBody, wingPoints);
 
             //хвост
             Point[] tailPoints = new Point[]{
@@ -181,47 +212,7 @@
                 new Point(_startPosX.Value + 15, _startPosY.Value + 56),
             };
             g.DrawPolygon(pen, tailPoints);
-            g.FillPolygon(brush, tailPoints);
-
-            brush = new SolidBrush(EntityAirBomber.AdditionalColor);
-
-            //бомбы
-            if (EntityAirBomber.AircraftBomb)
-            {
-                int y = _startPosY.Value;
-                Point[] bombPoints;
-                for (int i = 0; i < 2; i++)
-                {
-                    bombPoints = new Point[]{
-                        new Point(_startPosX.Value + 60, y + 15),
-                        new Point(_startPosX.Value + 80, y + 20),
-                        new Point(_startPosX.Value + 60, y + 25),
-                    };
-                    g.DrawPolygon(pen, bombPoints);
-                    g.FillPolygon(brush, bombPoints);
-                    y += 56;
-                }
-            }
-
-            //топливные баки
-            if (EntityAirBomber.AircraftBomb)
-            {
-                int y = _startPosY.Value;
-
-                for (int i = 0; i < 2; i++)
-                {
-                    g.DrawRectangle(pen, _startPosX.Value + 20, y + 30, 20, 10);
-                    g.FillRectangle(brush, _startPosX.Value + 20, y + 30, 20, 10);
-                    y += 26;
-                }
-            }
-
-            //дозаправка в воздухе
-            if (EntityAirBomber.AirRefueling)
-            {
-                g.DrawLine(pen, new Point(_startPosX.Value + 100, _startPosY.Value + 48),
-                    new Point(_startPosX.Value + 105, _startPosY.Value + 48));
-            }
+            g.FillPolygon(brushBody, tailPoints);
         }
     }
 }
