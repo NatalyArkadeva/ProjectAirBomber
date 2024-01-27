@@ -114,11 +114,13 @@ namespace ProjectAirBomber.Drawnings
                 return;
             }
 
-            if (x > 0 && x < _pictureWidth.Value - _drawningAirWidth && y > 0 && y < _pictureHeight.Value - _drawingAirHeight)
+            if (x < 0 || x > _pictureWidth.Value - _drawningAirWidth || y < 0 || y > _pictureHeight.Value - _drawingAirHeight)
             {
-                _startPosX = x;
-                _startPosY = y;
+                x = 0;
+                y = 0;  
             }
+            _startPosX = x;
+            _startPosY = y;
         }
 
         /// <summary>
