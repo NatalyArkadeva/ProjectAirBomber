@@ -29,12 +29,10 @@
         private void InitializeComponent()
         {
             pictureBoxAirBomber = new PictureBox();
-            buttonCreate = new Button();
             buttonUp = new Button();
             buttonLeft = new Button();
             buttonDown = new Button();
             buttonRight = new Button();
-            buttonCreateAirplane = new Button();
             comboBoxStrategy = new ComboBox();
             buttonStrategyStep = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAirBomber).BeginInit();
@@ -48,17 +46,6 @@
             pictureBoxAirBomber.Size = new Size(854, 481);
             pictureBoxAirBomber.TabIndex = 0;
             pictureBoxAirBomber.TabStop = false;
-            // 
-            // buttonCreate
-            // 
-            buttonCreate.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            buttonCreate.Location = new Point(12, 444);
-            buttonCreate.Name = "buttonCreate";
-            buttonCreate.Size = new Size(163, 25);
-            buttonCreate.TabIndex = 1;
-            buttonCreate.Text = "Создать бомбардировщик";
-            buttonCreate.UseVisualStyleBackColor = true;
-            buttonCreate.Click += buttonCreate_Click;
             // 
             // buttonUp
             // 
@@ -104,17 +91,6 @@
             buttonRight.UseVisualStyleBackColor = true;
             buttonRight.Click += buttonMove_Click;
             // 
-            // buttonCreateAirplane
-            // 
-            buttonCreateAirplane.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            buttonCreateAirplane.Location = new Point(197, 444);
-            buttonCreateAirplane.Name = "buttonCreateAirplane";
-            buttonCreateAirplane.Size = new Size(125, 25);
-            buttonCreateAirplane.TabIndex = 6;
-            buttonCreateAirplane.Text = "Создать самолет";
-            buttonCreateAirplane.UseVisualStyleBackColor = true;
-            buttonCreateAirplane.Click += buttonCreateAirplane_Click;
-            // 
             // comboBoxStrategy
             // 
             comboBoxStrategy.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -142,12 +118,10 @@
             ClientSize = new Size(854, 481);
             Controls.Add(buttonStrategyStep);
             Controls.Add(comboBoxStrategy);
-            Controls.Add(buttonCreateAirplane);
             Controls.Add(buttonRight);
             Controls.Add(buttonDown);
             Controls.Add(buttonLeft);
             Controls.Add(buttonUp);
-            Controls.Add(buttonCreate);
             Controls.Add(pictureBoxAirBomber);
             Name = "FormAirBomber";
             Text = "Бомбардировщик";
@@ -158,12 +132,10 @@
         #endregion
 
         private PictureBox pictureBoxAirBomber;
-        private Button buttonCreate;
         private Button buttonUp;
         private Button buttonLeft;
         private Button buttonDown;
         private Button buttonRight;
-        private Button buttonCreateAirplane;
         private ComboBox comboBoxStrategy;
         private Button buttonStrategyStep;
     }

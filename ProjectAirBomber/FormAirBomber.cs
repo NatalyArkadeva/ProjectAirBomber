@@ -22,6 +22,21 @@ namespace ProjectAirBomber
         private Random random = new();
 
         /// <summary>
+        /// Получение объекта
+        /// </summary>
+        public DrawningAirplane SetAirplane
+        {
+            set
+            {
+                _drawningAirplane = value;
+                _drawningAirplane.SetPictureSize(pictureBoxAirBomber.Width, pictureBoxAirBomber.Height);
+                comboBoxStrategy.Enabled = true;
+                _strategy = null;
+                Draw();
+            }
+        }
+
+        /// <summary>
         /// Конструктор формы
         /// </summary>
         public FormAirBomber()
@@ -44,48 +59,6 @@ namespace ProjectAirBomber
             _drawningAirplane.Draw(g);
             pictureBoxAirBomber.Image = bmp;
         }
-        /// <summary>
-        /// Создание объекта класса-перемещения
-        /// </summary>
-        /// <param name="type">Тип создаваемого объекта</param>
-        private void CreateObject(string type)
-        {
-            switch (type)
-            {
-                case nameof(DrawningAirplane):
-                    _drawningAirplane = new DrawningAirplane(random.Next(100, 300), random.Next(1000, 3000),
-                        Color.FromArgb(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256)));
-                    break;
-                case nameof(DrawningAirBomber):
-                    _drawningAirplane = new DrawningAirBomber(random.Next(100, 300), random.Next(1000, 3000),
-                        Color.FromArgb(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256)),
-                        Color.FromArgb(random.Next(0, 256), random.Next(0, 256), random.Next(0, 256)),
-                        Convert.ToBoolean(random.Next(0, 2)), Convert.ToBoolean(random.Next(0, 2)),
-                        Convert.ToBoolean(random.Next(0, 2)));
-                    break;
-                default:
-                    return;
-            }
-            _drawningAirplane.SetPictureSize(pictureBoxAirBomber.Width, pictureBoxAirBomber.Height);
-            _drawningAirplane.SetPosition(random.Next(5, 20), random.Next(5, 20));
-            _strategy = null;
-            comboBoxStrategy.Enabled = true;
-
-            Draw();
-        }
-
-        /// <summary>
-        /// Обработка нажатия кнопки "Создать бомбардировщик"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonCreate_Click(object sender, EventArgs e) => CreateObject(nameof(DrawningAirBomber));
-        /// <summary>
-        /// Обработка нажатия кнопки "Создать самолет"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonCreateAirplane_Click(object sender, EventArgs e) => CreateObject(nameof(DrawningAirplane));
 
         /// <summary>
         /// Обработка нажатия кнопок перемещения
