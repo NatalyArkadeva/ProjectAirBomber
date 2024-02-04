@@ -12,10 +12,26 @@
         /// </summary>
         private T?[] _collection;
         public int Count => _collection.Length;
-        /// <summary>
-        /// Конструктор
-        /// </summary>
-        public int SetMaxCount { set { if (value > 0) { _collection = new T?[value]; } } }
+        
+        //public int SetMaxCount { set { if (value > 0) { _collection = new T?[value]; } } }
+
+        public int SetMaxCount
+        {
+            set
+            {
+                if (value > 0)
+                {
+                    if (_collection.Length > 0)
+                    {
+                        Array.Resize(ref _collection, value);
+                    }
+                    else
+                    {
+                        _collection = new T?[value];
+                    }
+                }
+            }
+        }
 
         public MassiveGenericObjects()
         {
@@ -30,57 +46,59 @@
 
         public bool Insert(T obj)
         {
-            if (obj != null)
+            if (obj == null)
             {
-                for (int i = 0; i < _collection.Length; i++)
+                return false;
+            }
+
+            for (int i = 0; i < _collection.Length; i++)
+            {
+                if (_collection[i] == null)
                 {
-                    if (_collection[i] == null)
-                    {
-                        _collection[i] = obj;
-                        return true;
-                    }
+                    _collection[i] = obj;
+                    return true;
                 }
             }
             return false;
         }
 
         public bool Insert(T obj, int position)
-        {
-            if (obj != null && position < _collection.Length) 
-            {
-                if (_collection[position] == null)
+        { 
+                if (obj != null && position < _collection.Length)
                 {
-                    _collection[position] = obj;
-                    return true;
-                }
-                for (int i = ++position; i < _collection.Length; i++)
-                {
-                    if (_collection[i] == null)
+                    if (_collection[position] == null)
                     {
-                        _collection[i] = obj;
+                        _collection[position] = obj;
                         return true;
                     }
-                }
-                for (int i = --position; i >= 0; i--)
-                {
-                    if (_collection[i] == null)
+                    for (int i = ++position; i < _collection.Length; i++)
                     {
-                        _collection[i] = obj;
-                        return true;
+                        if (_collection[i] == null)
+                        {
+                            _collection[i] = obj;
+                            return true;
+                        }
+                    }
+                    for (int i = --position; i >= 0; i--)
+                    {
+                        if (_collection[i] == null)
+                        {
+                            _collection[i] = obj;
+                            return true;
+                        }
                     }
                 }
-            }
-            return false;
-        }
-
-        public bool Remove(int position)
-        {
-            if (position < 0 || position >= _collection.Length || _collection[position] == null)
-            {
                 return false;
             }
-            _collection[position] = null;
-            return true;
-        }
+
+            public bool Remove(int position)
+            {
+                if (position < 0 || position >= _collection.Length || _collection[position] == null)
+                {
+                    return false;
+                }
+                _collection[position] = null;
+                return true;
+            }
     }
 }
