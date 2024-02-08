@@ -13,8 +13,6 @@
         private T?[] _collection;
         public int Count => _collection.Length;
         
-        //public int SetMaxCount { set { if (value > 0) { _collection = new T?[value]; } } }
-
         public int SetMaxCount
         {
             set
@@ -32,7 +30,9 @@
                 }
             }
         }
-
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public MassiveGenericObjects()
         {
             _collection = Array.Empty<T>();

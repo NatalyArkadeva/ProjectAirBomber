@@ -34,5 +34,13 @@
             Weight = weight;
             BodyColor = bodyColor;
         }
+        /// <summary>
+        /// Изменение основного цвета
+        /// </summary>
+        /// <param name="color"></param>
+        public void ChangeColor (Color color)
+        {
+            BodyColor = color;
+        }
     }
 }

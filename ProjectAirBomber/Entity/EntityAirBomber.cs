@@ -39,5 +39,13 @@
             ExtraFuelTank = extraFuelTank;
             AircraftBomb = aircraftBomb;
         }
+        /// <summary>
+        /// Изменение дополнительного цвета
+        /// </summary>
+        /// <param name="color"></param>
+        public void ChangeAdditionalColor(Color color)
+        {
+            AdditionalColor = color;
+        }
     }
 }

@@ -91,7 +91,33 @@ namespace ProjectAirBomber
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonAddAirplane_Click(object sender, EventArgs e) => CreateObject(nameof(DrawningAirplane));
+        //private void ButtonAddAirplane_Click(object sender, EventArgs e) => CreateObject(nameof(DrawningAirplane));
+        private void ButtonAddAirplane_Click(object sender, EventArgs e) 
+        {
+            FormAirplaneConfig form = new();
+            form.AddEvent(SetAirplane);
+            form.Show();
+        }
+        /// <summary>
+        /// Добавление объекта
+        /// </summary>
+        /// <param name="drawningAirplane"></param>
+        private void SetAirplane(DrawningAirplane drawningAirplane)
+        {
+            if (_company == null || drawningAirplane == null)
+            {
+                return;
+            }
+            if (_company + drawningAirplane)
+            {
+                MessageBox.Show("Объект добавлен");
+                pictureBox.Image = _company.Show();
+            }
+            else
+            {
+                MessageBox.Show("Не удалось добавить объект");
+            }
+        }
         /// <summary>
         /// Добавление бомбардировщика
         /// </summary>
@@ -124,7 +150,11 @@ namespace ProjectAirBomber
                 MessageBox.Show("Не удалось удалить объект");
             }
         }
-
+        /// <summary>
+        /// Передача на тесты
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonGoToCheck_Click(object sender, EventArgs e)
         {
             if (_company == null)
@@ -152,7 +182,11 @@ namespace ProjectAirBomber
             };
             form.ShowDialog();
         }
-
+        /// <summary>
+        /// Обновление
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonRefresh_Click(object sender, EventArgs e)
         {
             if (_company == null)

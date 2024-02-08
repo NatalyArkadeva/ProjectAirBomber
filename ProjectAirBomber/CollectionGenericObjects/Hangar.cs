@@ -20,19 +20,21 @@ namespace ProjectAirBomber.CollectionGenericObjects
         protected override void DrawBackgound(Graphics g)
         {
             Pen pen = new(Color.Black, 3);
+            int placeSizeWidth = _placeSizeWidth + 20;
             for (int i = 0; i < _pictureHeight / (_placeSizeHeight*3/2); i++)
             {
-                for (int j = 0; j < _pictureWidth / _placeSizeWidth+1; j++)
+                for (int j = 0; j < _pictureWidth / placeSizeWidth + 1; j++)
                 {
-                    g.DrawLine(pen, _pictureWidth-(j * _placeSizeWidth), i  * _placeSizeHeight*3/2 + _placeSizeHeight / 2, _pictureWidth - (j * _placeSizeWidth), (i + 1) * (_placeSizeHeight * 3 / 2));
+                    g.DrawLine(pen, _pictureWidth-(j * placeSizeWidth), i  * _placeSizeHeight*3/2 + _placeSizeHeight / 2, _pictureWidth - (j * placeSizeWidth), (i + 1) * (_placeSizeHeight * 3 / 2));
                 }
-                g.DrawLine(pen, _pictureWidth, (i+1) * (_placeSizeHeight*3/2), _pictureWidth-(_pictureWidth / _placeSizeWidth  * _placeSizeWidth), (i + 1) * (_placeSizeHeight * 3 / 2));
+                g.DrawLine(pen, _pictureWidth, (i+1) * (_placeSizeHeight*3/2), _pictureWidth-(_pictureWidth / placeSizeWidth * placeSizeWidth), (i + 1) * (_placeSizeHeight * 3 / 2));
             }
         }
 
         protected override void SetObjectsPosition()
         {
-            int x = _pictureWidth;
+            int placeSizeWidth = _placeSizeWidth + 20;
+            int x = _pictureWidth + 10;
             int y = _placeSizeHeight * 1 / 2;
 
             for (int i = 0; i < (_collection?.Count ?? 0); i++)
@@ -40,16 +42,16 @@ namespace ProjectAirBomber.CollectionGenericObjects
                 DrawningAirplane? obj = _collection?.Get(i);
                 if (obj == null)
                 {
-                    x -= _placeSizeWidth;
+                    x -= placeSizeWidth;
                     continue;
                 }
                 obj.SetPictureSize(_pictureWidth, _pictureHeight);
 
-                x -= _placeSizeWidth;
+                x -= placeSizeWidth;
 
                 if (x < 0)
                 {
-                    x = _pictureWidth - _placeSizeWidth;
+                    x = _pictureWidth + 10 - placeSizeWidth;
                     y += _placeSizeHeight*3/2;
                 }
                 obj.SetPosition(x, y);

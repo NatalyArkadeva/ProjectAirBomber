@@ -30,7 +30,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// <summary>
         /// Вычисление максимального количества элементов, который можно разместить в окне
         /// </summary>
-        private int GetMaxCount => _pictureWidth * _pictureHeight*5/6 / ((_placeSizeWidth * (_placeSizeHeight*3/2)));
+        private int GetMaxCount => _pictureWidth * _pictureHeight*5/6 / (((_placeSizeWidth + 20) * (_placeSizeHeight*3/2)));
         /// <summary>
         /// Конструктор
         /// </summary>

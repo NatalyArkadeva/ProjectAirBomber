@@ -33,20 +33,9 @@
             {
                 return;
             }
-            switch (collectionType)
-            {
-                case CollectionType.Massive:
-                    _storages.Add(name, new MassiveGenericObjects<T>());
-                    break;
-                case CollectionType.List:
-                    _storages.Add(name, new ListGenericObjects<T>());
-                    break;
-                case CollectionType.None:
-                    break;
-            }
-            // TODO проверка, что name не пустой и нет в словаре записи с таким ключом
-            // TODO Прописать логику для добавления
+            _storages.Add(name, collectionType.Equals(CollectionType.Massive) ? new MassiveGenericObjects<T>() : new ListGenericObjects<T>());
         }
+        
         /// <summary>
         /// Удаление коллекции
         /// </summary>
@@ -58,7 +47,6 @@
                 return;
             }
             _storages.Remove(name);
-            // TODO Прописать логику для удаления коллекции
         }
         /// <summary>
         /// Доступ к коллекции
@@ -69,7 +57,6 @@
         {
             get
             {
-                // TODO Продумать логику получения объекта
                 return _storages.GetValueOrDefault(name, null);
             }
         }

@@ -58,7 +58,7 @@ namespace ProjectAirBomber.Drawnings
             }
 
             //топливные баки
-            if (airBomber.AircraftBomb)
+            if (airBomber.ExtraFuelTank)
             {
                 int y = _startPosY.Value;
 
