@@ -31,7 +31,6 @@
             groupBoxTools = new GroupBox();
             panelCompanyTools = new Panel();
             buttonAddAirplane = new Button();
-            buttonAddAirBomber = new Button();
             maskedTextBox = new MaskedTextBox();
             buttonRemoveAirplane = new Button();
             buttonRefresh = new Button();
@@ -47,10 +46,17 @@
             labelCollectionName = new Label();
             comboBoxSelectorCompany = new ComboBox();
             pictureBox = new PictureBox();
+            menuStrip = new MenuStrip();
+            файлToolStripMenuItem = new ToolStripMenuItem();
+            saveToolStripMenuItem = new ToolStripMenuItem();
+            loadToolStripMenuItem = new ToolStripMenuItem();
+            saveFileDialog = new SaveFileDialog();
+            openFileDialog = new OpenFileDialog();
             groupBoxTools.SuspendLayout();
             panelCompanyTools.SuspendLayout();
             panelStorage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
+            menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // groupBoxTools
@@ -60,9 +66,9 @@
             groupBoxTools.Controls.Add(panelStorage);
             groupBoxTools.Controls.Add(comboBoxSelectorCompany);
             groupBoxTools.Dock = DockStyle.Right;
-            groupBoxTools.Location = new Point(759, 0);
+            groupBoxTools.Location = new Point(759, 24);
             groupBoxTools.Name = "groupBoxTools";
-            groupBoxTools.Size = new Size(175, 547);
+            groupBoxTools.Size = new Size(175, 523);
             groupBoxTools.TabIndex = 0;
             groupBoxTools.TabStop = false;
             groupBoxTools.Text = "Инструменты";
@@ -70,7 +76,6 @@
             // panelCompanyTools
             // 
             panelCompanyTools.Controls.Add(buttonAddAirplane);
-            panelCompanyTools.Controls.Add(buttonAddAirBomber);
             panelCompanyTools.Controls.Add(maskedTextBox);
             panelCompanyTools.Controls.Add(buttonRemoveAirplane);
             panelCompanyTools.Controls.Add(buttonRefresh);
@@ -79,7 +84,7 @@
             panelCompanyTools.Enabled = false;
             panelCompanyTools.Location = new Point(3, 275);
             panelCompanyTools.Name = "panelCompanyTools";
-            panelCompanyTools.Size = new Size(169, 269);
+            panelCompanyTools.Size = new Size(169, 245);
             panelCompanyTools.TabIndex = 9;
             // 
             // buttonAddAirplane
@@ -93,21 +98,10 @@
             buttonAddAirplane.UseVisualStyleBackColor = true;
             buttonAddAirplane.Click += ButtonAddAirplane_Click;
             // 
-            // buttonAddAirBomber
-            // 
-            buttonAddAirBomber.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            buttonAddAirBomber.Location = new Point(6, 54);
-            buttonAddAirBomber.Name = "buttonAddAirBomber";
-            buttonAddAirBomber.Size = new Size(158, 43);
-            buttonAddAirBomber.TabIndex = 2;
-            buttonAddAirBomber.Text = "Добавление бомбардировщика";
-            buttonAddAirBomber.UseVisualStyleBackColor = true;
-            buttonAddAirBomber.Click += ButtonAddAirBomber_Click;
-            // 
             // maskedTextBox
             // 
             maskedTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            maskedTextBox.Location = new Point(6, 103);
+            maskedTextBox.Location = new Point(6, 76);
             maskedTextBox.Mask = "00";
             maskedTextBox.Name = "maskedTextBox";
             maskedTextBox.Size = new Size(158, 23);
@@ -117,7 +111,7 @@
             // buttonRemoveAirplane
             // 
             buttonRemoveAirplane.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            buttonRemoveAirplane.Location = new Point(6, 132);
+            buttonRemoveAirplane.Location = new Point(6, 105);
             buttonRemoveAirplane.Name = "buttonRemoveAirplane";
             buttonRemoveAirplane.Size = new Size(158, 28);
             buttonRemoveAirplane.TabIndex = 4;
@@ -128,7 +122,7 @@
             // buttonRefresh
             // 
             buttonRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            buttonRefresh.Location = new Point(6, 213);
+            buttonRefresh.Location = new Point(6, 186);
             buttonRefresh.Name = "buttonRefresh";
             buttonRefresh.Size = new Size(159, 34);
             buttonRefresh.TabIndex = 6;
@@ -139,7 +133,7 @@
             // buttonGoToCheck
             // 
             buttonGoToCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            buttonGoToCheck.Location = new Point(6, 166);
+            buttonGoToCheck.Location = new Point(6, 139);
             buttonGoToCheck.Name = "buttonGoToCheck";
             buttonGoToCheck.Size = new Size(158, 41);
             buttonGoToCheck.TabIndex = 5;
@@ -254,11 +248,51 @@
             // pictureBox
             // 
             pictureBox.Dock = DockStyle.Fill;
-            pictureBox.Location = new Point(0, 0);
+            pictureBox.Location = new Point(0, 24);
             pictureBox.Name = "pictureBox";
-            pictureBox.Size = new Size(759, 547);
+            pictureBox.Size = new Size(759, 523);
             pictureBox.TabIndex = 1;
             pictureBox.TabStop = false;
+            // 
+            // menuStrip
+            // 
+            menuStrip.Items.AddRange(new ToolStripItem[] { файлToolStripMenuItem });
+            menuStrip.Location = new Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Size = new Size(934, 24);
+            menuStrip.TabIndex = 2;
+            menuStrip.Text = "menuStrip1";
+            // 
+            // файлToolStripMenuItem
+            // 
+            файлToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { saveToolStripMenuItem, loadToolStripMenuItem });
+            файлToolStripMenuItem.Name = "файлToolStripMenuItem";
+            файлToolStripMenuItem.Size = new Size(48, 20);
+            файлToolStripMenuItem.Text = "Файл";
+            // 
+            // saveToolStripMenuItem
+            // 
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
+            saveToolStripMenuItem.Size = new Size(181, 22);
+            saveToolStripMenuItem.Text = "Сохранение";
+            saveToolStripMenuItem.Click += SaveToolStripMenuItem_Click;
+            // 
+            // loadToolStripMenuItem
+            // 
+            loadToolStripMenuItem.Name = "loadToolStripMenuItem";
+            loadToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.L;
+            loadToolStripMenuItem.Size = new Size(181, 22);
+            loadToolStripMenuItem.Text = "Загрузка";
+            loadToolStripMenuItem.Click += LoadToolStripMenuItem_Click;
+            // 
+            // saveFileDialog
+            // 
+            saveFileDialog.Filter = "txt file | *.txt";
+            // 
+            // openFileDialog
+            // 
+            openFileDialog.Filter = "txt file | *.txt";
             // 
             // FormAirplaneCollection
             // 
@@ -267,6 +301,8 @@
             ClientSize = new Size(934, 547);
             Controls.Add(pictureBox);
             Controls.Add(groupBoxTools);
+            Controls.Add(menuStrip);
+            MainMenuStrip = menuStrip;
             Name = "FormAirplaneCollection";
             Text = "Коллекция самолетов";
             groupBoxTools.ResumeLayout(false);
@@ -275,13 +311,15 @@
             panelStorage.ResumeLayout(false);
             panelStorage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
+            menuStrip.ResumeLayout(false);
+            menuStrip.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private GroupBox groupBoxTools;
-        private Button buttonAddAirBomber;
         private Button buttonAddAirplane;
         private Button buttonRemoveAirplane;
         private MaskedTextBox maskedTextBox;
@@ -299,5 +337,11 @@
         private Button buttonCollectionAdd;
         private Button buttonCreateCompany;
         private Panel panelCompanyTools;
+        private MenuStrip menuStrip;
+        private ToolStripMenuItem файлToolStripMenuItem;
+        private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripMenuItem loadToolStripMenuItem;
+        private SaveFileDialog saveFileDialog;
+        private OpenFileDialog openFileDialog;
     }
 }

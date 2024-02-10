@@ -161,7 +161,6 @@
             panelRed.Name = "panelRed";
             panelRed.Size = new Size(34, 30);
             panelRed.TabIndex = 0;
-            panelRed.DragEnter += labelColor_DragEnter;
             panelRed.MouseDown += Panel_MouseDown;
             // 
             // checkBoxExtraFuelTank
@@ -299,6 +298,7 @@
             labelAdditionalColor.AllowDrop = true;
             labelAdditionalColor.Anchor = AnchorStyles.Top;
             labelAdditionalColor.BorderStyle = BorderStyle.FixedSingle;
+            labelAdditionalColor.Image = Properties.Resources.background;
             labelAdditionalColor.Location = new Point(136, 9);
             labelAdditionalColor.Name = "labelAdditionalColor";
             labelAdditionalColor.Size = new Size(75, 26);
@@ -312,7 +312,9 @@
             // 
             labelBodyColor.AllowDrop = true;
             labelBodyColor.Anchor = AnchorStyles.Top;
+            labelBodyColor.BackColor = SystemColors.Control;
             labelBodyColor.BorderStyle = BorderStyle.FixedSingle;
+            labelBodyColor.Image = Properties.Resources.background;
             labelBodyColor.Location = new Point(29, 9);
             labelBodyColor.Name = "labelBodyColor";
             labelBodyColor.Size = new Size(75, 26);
@@ -370,6 +372,6 @@
         private Button buttonCancel;
         private Panel panelObject;
         private Label labelAdditionalColor;
-        private Label labelBodyColor;
+        public Label labelBodyColor;
     }
 }

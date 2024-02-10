@@ -47,5 +47,26 @@
         {
             AdditionalColor = color;
         }
+
+        public override string[] GetStringRepresentation()
+        {
+            return new[] { nameof(EntityAirBomber), Speed.ToString(), Weight.ToString(), BodyColor.Name, AdditionalColor.Name,
+                AirRefueling.ToString(), ExtraFuelTank.ToString(), AircraftBomb.ToString() };
+
+        }
+        /// <summary>
+        /// Создание объекта из массива строк
+        /// </summary>
+        /// <param name="strs"></param>
+        /// <returns></returns>
+        public static EntityAirBomber? CreateEntityAirBomber(string[] strs)
+        {
+            if (strs.Length != 8 || strs[0] != nameof(EntityAirBomber))
+            {
+                return null;
+            }
+            return new EntityAirBomber(Convert.ToInt32(strs[1]), Convert.ToDouble(strs[2]), Color.FromName(strs[3]), Color.FromName(strs[4]),
+                Convert.ToBoolean(strs[5]), Convert.ToBoolean(strs[6]), Convert.ToBoolean(strs[7]));
+        }
     }
 }

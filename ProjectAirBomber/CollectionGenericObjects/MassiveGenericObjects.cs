@@ -1,4 +1,5 @@
-﻿namespace ProjectAirBomber.CollectionGenericObjects
+﻿
+namespace ProjectAirBomber.CollectionGenericObjects
 {
     /// <summary>
     /// Параметризованный набор объектов
@@ -13,8 +14,12 @@
         private T?[] _collection;
         public int Count => _collection.Length;
         
-        public int SetMaxCount
+        public int MaxCount
         {
+            get
+            {
+                return _collection.Length;
+            }
             set
             {
                 if (value > 0)
@@ -30,6 +35,9 @@
                 }
             }
         }
+
+        public CollectionType GetCollectionType => CollectionType.Massive;
+
         /// <summary>
         /// Конструктор
         /// </summary>
@@ -100,5 +108,13 @@
                 _collection[position] = null;
                 return true;
             }
+
+        public IEnumerable<T?> GetItems()
+        {
+            for (int i = 0; i < _collection.Length; ++i)
+            {
+                yield return _collection[i];
+            }
+        }
     }
 }

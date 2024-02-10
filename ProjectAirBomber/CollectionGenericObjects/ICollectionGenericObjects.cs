@@ -14,7 +14,7 @@
         /// <summary>
         /// Установка максимального количества элементов
         /// </summary>
-        int SetMaxCount { set; }
+        int MaxCount { get;  set; }
         /// <summary>
         /// Добавление объекта в коллекцию
         /// </summary>
@@ -40,6 +40,14 @@
         /// <param name="position">Позиция</param>
         /// <returns>Объект</returns>
         T? Get(int position);
-
+        /// <summary>
+        /// Получение типа коллекции
+        /// </summary>
+        CollectionType GetCollectionType { get; }
+        /// <summary>
+        /// Получение объектов коллекции по одному
+        /// </summary>
+        /// <returns>Поэлементый вывод элементов коллекции</returns>
+        IEnumerable<T?> GetItems();
     }
 }

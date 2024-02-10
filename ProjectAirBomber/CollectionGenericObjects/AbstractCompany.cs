@@ -42,7 +42,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
             _pictureWidth = picWidth;
             _pictureHeight = picHeight;
             _collection = collection;
-            _collection.SetMaxCount = GetMaxCount;
+            _collection.MaxCount = GetMaxCount;
         }
         /// <summary>
         /// Перегрузка оператора сложения для класса

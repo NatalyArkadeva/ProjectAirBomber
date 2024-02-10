@@ -86,6 +86,14 @@ namespace ProjectAirBomber.Drawnings
         }
 
         /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="entityAirplane"></param>
+        public DrawningAirplane(EntityAirplane? entityAirplane)
+        {
+            EntityAirplane = entityAirplane;
+        }
+        /// <summary>
         /// Установка границ поля
         /// </summary>
         /// <param name="width"></param>

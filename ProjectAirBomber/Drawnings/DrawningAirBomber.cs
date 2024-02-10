@@ -24,6 +24,14 @@ namespace ProjectAirBomber.Drawnings
         }
 
         /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="entityAirBomber"></param>
+        public DrawningAirBomber(EntityAirBomber? entityAirBomber) : base(entityAirBomber)
+        {
+        }
+
+        /// <summary>
         /// Прорисовка объекта
         /// </summary>
         /// <param name="g"></param>
