@@ -1,4 +1,6 @@
 ﻿
+using ProjectAirBomber.Exceptions;
+
 namespace ProjectAirBomber.CollectionGenericObjects
 {
     /// <summary>
@@ -48,7 +50,10 @@ namespace ProjectAirBomber.CollectionGenericObjects
 
         public T? Get(int position)
         {
-            if(position < 0 || position >= _collection.Length - 1) return null;
+            if(position < 0 || position >= _collection.Length)
+            {
+                throw new PositionOutOfCollectionException(position);
+            }
             return _collection[position];
         }
 
@@ -57,6 +62,12 @@ namespace ProjectAirBomber.CollectionGenericObjects
             if (obj == null)
             {
                 return false;
+            }
+
+            int result = _collection.Count(s => s == null);
+            if (result == 0)
+            {
+                throw new CollectionOverflowException(Count);
             }
 
             for (int i = 0; i < _collection.Length; i++)
@@ -71,41 +82,57 @@ namespace ProjectAirBomber.CollectionGenericObjects
         }
 
         public bool Insert(T obj, int position)
-        { 
-                if (obj != null && position < _collection.Length)
-                {
-                    if (_collection[position] == null)
-                    {
-                        _collection[position] = obj;
-                        return true;
-                    }
-                    for (int i = ++position; i < _collection.Length; i++)
-                    {
-                        if (_collection[i] == null)
-                        {
-                            _collection[i] = obj;
-                            return true;
-                        }
-                    }
-                    for (int i = --position; i >= 0; i--)
-                    {
-                        if (_collection[i] == null)
-                        {
-                            _collection[i] = obj;
-                            return true;
-                        }
-                    }
-                }
+        {
+            if (obj == null)
+            {
                 return false;
             }
+            if (position < 0 || position >= _collection.Length)
+            {
+                throw new PositionOutOfCollectionException(position);
+            }
+
+            int result = _collection.Count(s => s == null);
+            if (result == 0)
+            {
+                throw new CollectionOverflowException(Count);
+            }
+
+            if (_collection[position] == null)
+            {
+                _collection[position] = obj;
+                return true;
+            }
+            for (int i = ++position; i < _collection.Length; i++)
+            {
+                if (_collection[i] == null)
+                {
+                    _collection[i] = obj;
+                    return true;
+                }
+            }
+            for (int i = --position; i >= 0; i--)
+            {
+                if (_collection[i] == null)
+                {
+                    _collection[i] = obj;
+                    return true;
+                }
+            }
+            return false;
+        }
 
             public bool Remove(int position)
             {
-                if (position < 0 || position >= _collection.Length || _collection[position] == null)
-                {
-                    return false;
-                }
-                _collection[position] = null;
+            if (position < 0 || position >= _collection.Length)
+            {
+                throw new PositionOutOfCollectionException(position);
+            }
+            if (_collection[position] == null)
+            {
+                throw new ObjectNotFoundException(position);
+            }
+            _collection[position] = null;
                 return true;
             }
 

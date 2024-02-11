@@ -1,4 +1,5 @@
 ﻿using ProjectAirBomber.Drawnings;
+using ProjectAirBomber.Exceptions;
 using System.Text;
 
 namespace ProjectAirBomber.CollectionGenericObjects
@@ -80,12 +81,11 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// Сохранение информации по автомобилям в хранилище в файл
         /// </summary>
         /// <param name="filename">Путь и имя файла</param>
-        /// <returns>true - сохранение прошло успешно, false - ошибка при сохранении данных</returns>
-        public bool SaveData(string filename)
+        public void SaveData(string filename)
         {
             if (_storages.Count == 0)
             {
-                return false;
+                throw new Exception("В хранилище отсутствуют коллекции для сохранения");
             }
             if (File.Exists(filename))
             {
@@ -121,18 +121,16 @@ namespace ProjectAirBomber.CollectionGenericObjects
             using FileStream fs = new(filename, FileMode.Create);
             byte[] info = new UTF8Encoding(true).GetBytes(sb.ToString());
             fs.Write(info, 0, info.Length);
-            return true;
         }
         /// <summary>
         /// Загрузка информации по автомобилям в хранилище из файла
         /// </summary>
         /// <param name="filename">Путь и имя файла</param>
-        /// <returns>true - загрузка прошла успешно, false - ошибка при загрузке данных</returns>
-        public bool LoadData(string filename)
+        public void LoadData(string filename)
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new Exception("Файл не существует");
             }
             string bufferTextFromFile = "";
             using (FileStream fs = new(filename, FileMode.Open))
@@ -147,12 +145,12 @@ namespace ProjectAirBomber.CollectionGenericObjects
             string[] strs = bufferTextFromFile.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             if (strs == null || strs.Length == 0)
             {
-                return false;
+                throw new Exception("В файле нет данных");
             }
             if (!strs[0].Equals(_collectionKey))
             {
                 //если нет такой записи, то это не те данные
-                return false;
+                throw new Exception("В файле неверные данные");
             }
             _storages.Clear();
             foreach (string data in strs)
@@ -166,7 +164,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
                 ICollectionGenericObjects<T>? collection = StorageCollection<T>.CreateCollection(collectionType);
                 if (collection == null)
                 {
-                    return false;
+                    throw new Exception("Не удалось определить тип коллекции:" + record[1]);
                 }
                 collection.MaxCount = Convert.ToInt32(record[2]);
                 string[] set = record[3].Split(_separatorItems, StringSplitOptions.RemoveEmptyEntries);
@@ -176,13 +174,22 @@ namespace ProjectAirBomber.CollectionGenericObjects
                     {
                         if (!collection.Insert(car))
                         {
-                            return false;
+                            try
+                            {
+                                if (!collection.Insert(car))
+                                {
+                                    throw new Exception("Объект не удалось добавить в коллекцию: " + record[3]);
+                                }
+                            }
+                            catch (CollectionOverflowException ex)
+                            {
+                                throw new Exception("Коллекция переполнена", ex);
+                            }
                         }
                     }
                 }
                 _storages.Add(record[0], collection);
             }
-            return true;
         }
         /// <summary>
         /// Создание коллекции по типу

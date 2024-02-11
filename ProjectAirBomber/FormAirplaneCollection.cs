@@ -1,4 +1,5 @@
-﻿using ProjectAirBomber.CollectionGenericObjects;
+﻿using Microsoft.Extensions.Logging;
+using ProjectAirBomber.CollectionGenericObjects;
 using ProjectAirBomber.Drawnings;
 
 namespace ProjectAirBomber
@@ -13,6 +14,10 @@ namespace ProjectAirBomber
         /// </summary>
         private AbstractCompany? _company = null;
         /// <summary>
+        /// Логер
+        /// </summary>
+        private readonly ILogger _logger;
+        /// <summary>
         /// Хранилише коллекций
         /// </summary>
         private readonly StorageCollection<DrawningAirplane> _storageCollection;
@@ -21,10 +26,11 @@ namespace ProjectAirBomber
         /// <summary>
         /// Конструктор
         /// </summary>
-        public FormAirplaneCollection()
+        public FormAirplaneCollection(ILogger<FormAirplaneCollection> logger)
         {
             InitializeComponent();
             _storageCollection = new();
+            _logger = logger;
         }
         /// <summary>
         /// Выбор компании
@@ -108,22 +114,19 @@ namespace ProjectAirBomber
             {
                 return;
             }
-            if (_company + drawningAirplane)
+            try
             {
+                bool isSet = _company + drawningAirplane;
                 MessageBox.Show("Объект добавлен");
                 pictureBox.Image = _company.Show();
+                _logger.LogInformation("Добавлен объект: {drawningAirplane}", saveFileDialog.FileName);
             }
-            else
+            catch (Exception ex) 
             {
-                MessageBox.Show("Не удалось добавить объект");
+                MessageBox.Show(ex.Message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _logger.LogError("Ошибка: {Message}", ex.Message);
             }
         }
-        /// <summary>
-        /// Добавление бомбардировщика
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonAddAirBomber_Click(object sender, EventArgs e) => CreateObject(nameof(DrawningAirBomber));
         /// <summary>
         /// Удаление объекта
         /// </summary>
@@ -140,14 +143,17 @@ namespace ProjectAirBomber
                 return;
             }
             int pos = Convert.ToInt32(maskedTextBox.Text);
-            if (_company - pos)
+            try
             {
+                bool isRemove = _company - pos;
                 MessageBox.Show("Объект удален");
                 pictureBox.Image = _company.Show();
+                _logger.LogInformation("Удален объект с индексом: {pos}", saveFileDialog.FileName);
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Не удалось удалить объект");
+                MessageBox.Show(ex.Message);
+                _logger.LogError("Ошибка: {Message}", ex.Message);
             }
         }
         /// <summary>
@@ -206,6 +212,7 @@ namespace ProjectAirBomber
             if (string.IsNullOrEmpty(textBoxCollectionName.Text) || (!radioButtonList.Checked && !radioButtonMassive.Checked))
             {
                 MessageBox.Show("Не все данные заполнены", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _logger.LogError("Ошибка: Не все данные заполнены");
                 return;
             }
             CollectionType collectionType = CollectionType.None;
@@ -219,6 +226,7 @@ namespace ProjectAirBomber
             }
             _storageCollection.AddCollection(textBoxCollectionName.Text, collectionType);
             RerfreshListBoxItems();
+            _logger.LogInformation("Добавлена коллекция: {textBoxCollectionName.Text}", saveFileDialog.FileName);
         }
 
         /// <summary>
@@ -235,15 +243,17 @@ namespace ProjectAirBomber
             if (string.IsNullOrEmpty(textBoxCollectionName.Text) || (!radioButtonList.Checked && !radioButtonMassive.Checked))
             {
                 MessageBox.Show("Коллекция не выбрана", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _logger.LogError("Ошибка: Коллекция не выбрана");
                 return;
             }
-            if (MessageBox.Show("Удалить объект?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            if (MessageBox.Show("Удалить коллекцию?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
                 return;
             }
             _storageCollection.DelCollection(textBoxCollectionName.Text);
-            MessageBox.Show("Объект удален");
+            MessageBox.Show("Коллекция удалена");
             RerfreshListBoxItems();
+            _logger.LogInformation("Удалена коллекция: {textBoxCollectionName.Text}", saveFileDialog.FileName);
         }
 
         /// <summary>
@@ -298,13 +308,16 @@ namespace ProjectAirBomber
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (_storageCollection.SaveData(saveFileDialog.FileName))
+                try
                 {
+                    _storageCollection.SaveData(saveFileDialog.FileName);
                     MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _logger.LogInformation("Сохранение в файл: {filename}", saveFileDialog.FileName);
                 }
-                else
+                catch(Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _logger.LogError("Ошибка: {Message}", ex.Message);
                 }
             }
         }
@@ -317,16 +330,17 @@ namespace ProjectAirBomber
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (_storageCollection.LoadData(openFileDialog.FileName))
+                try
                 {
-                    MessageBox.Show("Загрузка прошла успешно",
-                    "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _storageCollection.LoadData(openFileDialog.FileName);
+                    MessageBox.Show("Загрузка прошла успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RerfreshListBoxItems();
+                    _logger.LogInformation("Сохранение в файл: {filename}", saveFileDialog.FileName);
                 }
-                else
+                catch(Exception ex)
                 {
-                    MessageBox.Show("Не загрузилось", "Результат",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    _logger.LogError("Ошибка: {Message}", ex.Message);
                 }
             }
         }

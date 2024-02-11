@@ -1,4 +1,6 @@
 ﻿
+using ProjectAirBomber.Exceptions;
+
 namespace ProjectAirBomber.CollectionGenericObjects
 {
     /// <summary>
@@ -43,7 +45,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
         {
             if (position<0 || position>=_maxCount)
             {
-                return null;
+                throw new PositionOutOfCollectionException(position);
             }
             return _collection[position];
         }
@@ -52,7 +54,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
         {
             if (Count == _maxCount)
             {
-                return false;
+                throw new CollectionOverflowException(_maxCount);
             }
             _collection.Add(obj);
             return true;
@@ -60,9 +62,13 @@ namespace ProjectAirBomber.CollectionGenericObjects
 
         public bool Insert(T obj, int position)
         {
-            if (position < 0 || position >= _maxCount || Count == _maxCount)
+            if (position < 0 || position >= _maxCount)
             {
-                return false;
+                throw new PositionOutOfCollectionException(position);
+            }
+            if (Count == _maxCount)
+            {
+                throw new CollectionOverflowException(_maxCount);
             }
             _collection.Insert(position, obj);
             return true;
@@ -72,7 +78,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
         {
             if (_collection.Count == 0 || position < 0 || position >= _collection.Count)
             {
-                return false;
+                throw new PositionOutOfCollectionException(position);
             }
             _collection.RemoveAt(position);
             return true;
