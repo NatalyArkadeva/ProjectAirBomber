@@ -170,13 +170,13 @@ namespace ProjectAirBomber.CollectionGenericObjects
                 string[] set = record[3].Split(_separatorItems, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string elem in set)
                 {
-                    if (elem?.CreateDrawningAirplane() is T car)
+                    if (elem?.CreateDrawningAirplane() is T airplane)
                     {
-                        if (!collection.Insert(car))
+                        if (!collection.Insert(airplane))
                         {
                             try
                             {
-                                if (!collection.Insert(car))
+                                if (!collection.Insert(airplane))
                                 {
                                     throw new Exception("Объект не удалось добавить в коллекцию: " + record[3]);
                                 }
