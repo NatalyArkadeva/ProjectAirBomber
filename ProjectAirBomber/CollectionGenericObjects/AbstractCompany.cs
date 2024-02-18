@@ -52,7 +52,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// <returns></returns>
         public static bool operator +(AbstractCompany company, DrawningAirplane airplane)
         {
-            return company._collection?.Insert(airplane) ?? false;
+            return company._collection?.Insert(airplane, new DrawningAirplaneEqutables()) ?? false;
         }
         /// <summary>
         /// Перегрузка оператора удаления для класса
@@ -100,5 +100,10 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// Расстановка объектов
         /// </summary>
         protected abstract void SetObjectsPosition();
+        /// <summary>
+        /// Сортировка
+        /// </summary>
+        /// <param name="comparer">Сравнитель объектов</param>
+        public void Sort(IComparer<DrawningAirplane?> comparer) => _collection?.CollectionSort(comparer);
     }
 }

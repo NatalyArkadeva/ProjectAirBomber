@@ -1,4 +1,5 @@
 ﻿
+using ProjectAirBomber.Drawnings;
 using ProjectAirBomber.Exceptions;
 
 namespace ProjectAirBomber.CollectionGenericObjects
@@ -57,7 +58,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
             return _collection[position];
         }
 
-        public bool Insert(T obj)
+        public bool Insert(T obj, IEqualityComparer<T?>? comparer = null)
         {
             if (obj == null)
             {
@@ -68,6 +69,11 @@ namespace ProjectAirBomber.CollectionGenericObjects
             if (result == 0)
             {
                 throw new CollectionOverflowException(Count);
+            }
+
+            if (_collection.Contains(obj, comparer))
+            {
+                throw new NotUniqueElementException();
             }
 
             for (int i = 0; i < _collection.Length; i++)
@@ -81,7 +87,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
             return false;
         }
 
-        public bool Insert(T obj, int position)
+        public bool Insert(T obj, int position, IEqualityComparer<T?>? comparer = null)
         {
             if (obj == null)
             {
@@ -96,6 +102,11 @@ namespace ProjectAirBomber.CollectionGenericObjects
             if (result == 0)
             {
                 throw new CollectionOverflowException(Count);
+            }
+
+            if (_collection.Contains(obj, comparer))
+            {
+                throw new NotUniqueElementException();
             }
 
             if (_collection[position] == null)
@@ -142,6 +153,11 @@ namespace ProjectAirBomber.CollectionGenericObjects
             {
                 yield return _collection[i];
             }
+        }
+
+        public void CollectionSort(IComparer<T?> comparer)
+        {
+            Array.Sort(_collection);
         }
     }
 }

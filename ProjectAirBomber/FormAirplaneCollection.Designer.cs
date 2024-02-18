@@ -52,6 +52,8 @@
             loadToolStripMenuItem = new ToolStripMenuItem();
             saveFileDialog = new SaveFileDialog();
             openFileDialog = new OpenFileDialog();
+            buttonSortByColor = new Button();
+            buttonSortByType = new Button();
             groupBoxTools.SuspendLayout();
             panelCompanyTools.SuspendLayout();
             panelStorage.SuspendLayout();
@@ -75,6 +77,8 @@
             // 
             // panelCompanyTools
             // 
+            panelCompanyTools.Controls.Add(buttonSortByColor);
+            panelCompanyTools.Controls.Add(buttonSortByType);
             panelCompanyTools.Controls.Add(buttonAddAirplane);
             panelCompanyTools.Controls.Add(maskedTextBox);
             panelCompanyTools.Controls.Add(buttonRemoveAirplane);
@@ -101,7 +105,7 @@
             // maskedTextBox
             // 
             maskedTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            maskedTextBox.Location = new Point(6, 76);
+            maskedTextBox.Location = new Point(6, 51);
             maskedTextBox.Mask = "00";
             maskedTextBox.Name = "maskedTextBox";
             maskedTextBox.Size = new Size(158, 23);
@@ -111,7 +115,7 @@
             // buttonRemoveAirplane
             // 
             buttonRemoveAirplane.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            buttonRemoveAirplane.Location = new Point(6, 105);
+            buttonRemoveAirplane.Location = new Point(6, 80);
             buttonRemoveAirplane.Name = "buttonRemoveAirplane";
             buttonRemoveAirplane.Size = new Size(158, 28);
             buttonRemoveAirplane.TabIndex = 4;
@@ -122,9 +126,9 @@
             // buttonRefresh
             // 
             buttonRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            buttonRefresh.Location = new Point(6, 186);
+            buttonRefresh.Location = new Point(6, 148);
             buttonRefresh.Name = "buttonRefresh";
-            buttonRefresh.Size = new Size(159, 34);
+            buttonRefresh.Size = new Size(159, 25);
             buttonRefresh.TabIndex = 6;
             buttonRefresh.Text = "Обновить";
             buttonRefresh.UseVisualStyleBackColor = true;
@@ -133,9 +137,9 @@
             // buttonGoToCheck
             // 
             buttonGoToCheck.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            buttonGoToCheck.Location = new Point(6, 139);
+            buttonGoToCheck.Location = new Point(6, 114);
             buttonGoToCheck.Name = "buttonGoToCheck";
-            buttonGoToCheck.Size = new Size(158, 41);
+            buttonGoToCheck.Size = new Size(158, 28);
             buttonGoToCheck.TabIndex = 5;
             buttonGoToCheck.Text = "Передать на тесты";
             buttonGoToCheck.UseVisualStyleBackColor = true;
@@ -294,6 +298,28 @@
             // 
             openFileDialog.Filter = "txt file | *.txt";
             // 
+            // buttonSortByColor
+            // 
+            buttonSortByColor.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            buttonSortByColor.Location = new Point(6, 213);
+            buttonSortByColor.Name = "buttonSortByColor";
+            buttonSortByColor.Size = new Size(159, 25);
+            buttonSortByColor.TabIndex = 8;
+            buttonSortByColor.Text = "Сортировка по цвету";
+            buttonSortByColor.UseVisualStyleBackColor = true;
+            buttonSortByColor.Click += buttonSortByColor_Click;
+            // 
+            // buttonSortByType
+            // 
+            buttonSortByType.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            buttonSortByType.Location = new Point(6, 179);
+            buttonSortByType.Name = "buttonSortByType";
+            buttonSortByType.Size = new Size(158, 28);
+            buttonSortByType.TabIndex = 7;
+            buttonSortByType.Text = "Сортировка по типу";
+            buttonSortByType.UseVisualStyleBackColor = true;
+            buttonSortByType.Click += buttonSortByType_Click;
+            // 
             // FormAirplaneCollection
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -343,5 +369,7 @@
         private ToolStripMenuItem loadToolStripMenuItem;
         private SaveFileDialog saveFileDialog;
         private OpenFileDialog openFileDialog;
+        private Button buttonSortByColor;
+        private Button buttonSortByType;
     }
 }

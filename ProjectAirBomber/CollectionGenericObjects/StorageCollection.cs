@@ -14,11 +14,11 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// <summary>
         /// Словарь (хранилище) с коллекциями
         /// </summary>
-        readonly Dictionary<string, ICollectionGenericObjects<T>> _storages;
+        readonly Dictionary<CollectionInfo, ICollectionGenericObjects<T>> _storages;
         /// <summary>
         /// Возвращение списка названий коллекций
         /// </summary>
-        public List<string> Keys => _storages.Keys.ToList();
+        public List<CollectionInfo> Keys => _storages.Keys.ToList();
         /// <summary>
         /// Ключевое слово, с которого должен начинаться файл
         /// </summary>
@@ -36,7 +36,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// </summary>
         public StorageCollection()
         {
-            _storages = new Dictionary<string, ICollectionGenericObjects<T>>();
+            _storages = new Dictionary<CollectionInfo, ICollectionGenericObjects<T>>();
         }
         /// <summary>
         /// Добавление коллекции в хранилище
@@ -45,24 +45,25 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// <param name="collectionType">тип коллекции</param>
         public void AddCollection(string name, CollectionType collectionType)
         {
-            if (name == null || Keys.Contains(name))
+            CollectionInfo collectionInfo = new CollectionInfo(name, collectionType, string.Empty);
+            if (name == null || Keys.Contains(collectionInfo))
             {
                 return;
             }
-            _storages.Add(name, collectionType.Equals(CollectionType.Massive) ? new MassiveGenericObjects<T>() : new ListGenericObjects<T>());
+            _storages.Add(collectionInfo, collectionType.Equals(CollectionType.Massive) ? new MassiveGenericObjects<T>() : new ListGenericObjects<T>());
         }
-        
         /// <summary>
         /// Удаление коллекции
         /// </summary>
         /// <param name="name">Название коллекции</param>
         public void DelCollection(string name)
         {
-            if (name == null || !Keys.Contains(name))
+            CollectionInfo collectionInfo = new CollectionInfo(name, CollectionType.None, string.Empty);
+            if (name == null || !Keys.Contains(collectionInfo))
             {
                 return;
             }
-            _storages.Remove(name);
+            _storages.Remove(collectionInfo);
         }
         /// <summary>
         /// Доступ к коллекции
@@ -73,12 +74,12 @@ namespace ProjectAirBomber.CollectionGenericObjects
         {
             get
             {
-                return _storages.GetValueOrDefault(name, null);
+                return _storages.GetValueOrDefault(new CollectionInfo(name, CollectionType.Massive, string.Empty), null);
             }
         }
 
         /// <summary>
-        /// Сохранение информации по автомобилям в хранилище в файл
+        /// Сохранение информации по самолетам в хранилище в файл
         /// </summary>
         /// <param name="filename">Путь и имя файла</param>
         public void SaveData(string filename)
@@ -93,7 +94,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
             }
             StringBuilder sb = new();
             sb.Append(_collectionKey);
-            foreach (KeyValuePair<string, ICollectionGenericObjects<T>> value in _storages)
+            foreach (KeyValuePair<CollectionInfo, ICollectionGenericObjects<T>> value in _storages)
             {
                 sb.Append(Environment.NewLine);
                 // не сохраняем пустые коллекции
@@ -102,8 +103,6 @@ namespace ProjectAirBomber.CollectionGenericObjects
                     continue;
                 }
                 sb.Append(value.Key);
-                sb.Append(_separatorForKeyValue);
-                sb.Append(value.Value.GetCollectionType);
                 sb.Append(_separatorForKeyValue);
                 sb.Append(value.Value.MaxCount);
                 sb.Append(_separatorForKeyValue);
@@ -123,7 +122,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
             fs.Write(info, 0, info.Length);
         }
         /// <summary>
-        /// Загрузка информации по автомобилям в хранилище из файла
+        /// Загрузка информации по самолетам в хранилище из файла
         /// </summary>
         /// <param name="filename">Путь и имя файла</param>
         public void LoadData(string filename)
@@ -156,18 +155,19 @@ namespace ProjectAirBomber.CollectionGenericObjects
             foreach (string data in strs)
             {
                 string[] record = data.Split(_separatorForKeyValue, StringSplitOptions.RemoveEmptyEntries);
-                if (record.Length != 4)
+                if (record.Length != 3)
                 {
                     continue;
                 }
-                CollectionType collectionType = (CollectionType)Enum.Parse(typeof(CollectionType), record[1]);
-                ICollectionGenericObjects<T>? collection = StorageCollection<T>.CreateCollection(collectionType);
+                CollectionInfo? collectionInfo = CollectionInfo.GetCollectionInfo(record[0]) ??
+                    throw new Exception("Не удалось определить информацию коллекции:" + record[0]);
+                ICollectionGenericObjects<T>? collection = StorageCollection<T>.CreateCollection(collectionInfo.CollectionType);
                 if (collection == null)
                 {
-                    throw new Exception("Не удалось определить тип коллекции:" + record[1]);
+                    throw new Exception("Не удалось создать коллекцию");
                 }
-                collection.MaxCount = Convert.ToInt32(record[2]);
-                string[] set = record[3].Split(_separatorItems, StringSplitOptions.RemoveEmptyEntries);
+                collection.MaxCount = Convert.ToInt32(record[1]);
+                string[] set = record[2].Split(_separatorItems, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string elem in set)
                 {
                     if (elem?.CreateDrawningAirplane() is T airplane)
@@ -178,7 +178,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
                             {
                                 if (!collection.Insert(airplane))
                                 {
-                                    throw new Exception("Объект не удалось добавить в коллекцию: " + record[3]);
+                                    throw new Exception("Объект не удалось добавить в коллекцию: " + record[2]);
                                 }
                             }
                             catch (CollectionOverflowException ex)
@@ -188,7 +188,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
                         }
                     }
                 }
-                _storages.Add(record[0], collection);
+                _storages.Add(collectionInfo, collection);
             }
         }
         /// <summary>

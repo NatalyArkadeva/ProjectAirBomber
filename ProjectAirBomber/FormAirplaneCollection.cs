@@ -121,7 +121,7 @@ namespace ProjectAirBomber
                 pictureBox.Image = _company.Show();
                 _logger.LogInformation("Добавлен объект: {drawningAirplane}", saveFileDialog.FileName);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 _logger.LogError("Ошибка: {Message}", ex.Message);
@@ -264,7 +264,7 @@ namespace ProjectAirBomber
             listBoxCollection.Items.Clear();
             for (int i = 0; i < _storageCollection.Keys?.Count; ++i)
             {
-                string? colName = _storageCollection.Keys?[i];
+                string? colName = _storageCollection.Keys?[i].Name;
                 if (!string.IsNullOrEmpty(colName))
                 {
                     listBoxCollection.Items.Add(colName);
@@ -314,7 +314,7 @@ namespace ProjectAirBomber
                     MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _logger.LogInformation("Сохранение в файл: {filename}", saveFileDialog.FileName);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _logger.LogError("Ошибка: {Message}", ex.Message);
@@ -337,12 +337,43 @@ namespace ProjectAirBomber
                     RerfreshListBoxItems();
                     _logger.LogInformation("Сохранение в файл: {filename}", saveFileDialog.FileName);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     _logger.LogError("Ошибка: {Message}", ex.Message);
                 }
             }
+        }
+        /// <summary>
+        /// Сортировка по типу
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSortByType_Click(object sender, EventArgs e)
+        {
+            CompareAirplane(new DrawningAirplaneCompareByType());
+        }
+        /// <summary>
+        /// Сортировка по цвету
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSortByColor_Click(object sender, EventArgs e)
+        {
+            CompareAirplane(new DrawningAirplaneCompareByColor());
+        }
+        /// <summary>
+        /// Сортировка по сравнителю
+        /// </summary>
+        /// <param name="comparer">Сравнитель объектов</param>
+        private void CompareAirplane(IComparer<DrawningAirplane?> comparer)
+        {
+            if (_company == null)
+            {
+                return;
+            }
+            _company.Sort(comparer);
+            pictureBox.Image = _company.Show();
         }
     }
 }

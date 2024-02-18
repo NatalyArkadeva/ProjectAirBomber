@@ -1,4 +1,6 @@
-﻿namespace ProjectAirBomber.CollectionGenericObjects
+﻿using ProjectAirBomber.Drawnings;
+
+namespace ProjectAirBomber.CollectionGenericObjects
 {
     /// <summary>
     /// Интерфейс описания действий для набора хранимых объектов
@@ -19,15 +21,17 @@
         /// Добавление объекта в коллекцию
         /// </summary>
         /// <param name="obj">Добавляемый объект</param>
-        /// /// <returns>true - вставка прошла удачно, false - вставка не удалась</returns>
-        bool Insert(T obj);
+        /// <param name="comparer">Cравнение двух объектов</param>
+        /// <returns>true - вставка прошла удачно, false - вставка не удалась</returns>
+        bool Insert(T obj, IEqualityComparer<T?>? comparer = null);
         /// <summary>
         /// Добавление объекта в коллекцию на конкретную позицию
         /// </summary>
         /// <param name="obj">Добавляемый объект</param>
         /// <param name="position">Позиция</param>
+        /// <param name="comparer">Cравнение двух объектов</param>
         /// <returns>true - вставка прошла удачно, false - вставка не удалась</returns>
-        bool Insert(T obj, int position);
+        bool Insert(T obj, int position, IEqualityComparer<T?>? comparer = null);
         /// <summary>
         /// Удаление объекта из коллекции с конкретной позиции
         /// </summary>
@@ -49,5 +53,10 @@
         /// </summary>
         /// <returns>Поэлементый вывод элементов коллекции</returns>
         IEnumerable<T?> GetItems();
+        /// <summary>
+        /// Сортировка коллекции
+        /// </summary>
+        /// <param name="comparer">Сравнитель объектов</param>
+        void CollectionSort(IComparer<T?> comparer);
     }
 }
