@@ -157,7 +157,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
 
         public void CollectionSort(IComparer<T?> comparer)
         {
-            Array.Sort(_collection);
+            Array.Sort(_collection, comparer);
         }
     }
 }
