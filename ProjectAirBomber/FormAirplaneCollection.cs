@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ProjectAirBomber.CollectionGenericObjects;
+using ProjectAirBomber.Database;
+using ProjectAirBomber.Database.Impl;
 using ProjectAirBomber.Drawnings;
 
 namespace ProjectAirBomber
@@ -22,6 +24,8 @@ namespace ProjectAirBomber
         /// </summary>
         private readonly StorageCollection<DrawningAirplane> _storageCollection;
 
+        private readonly ICollectionRepository _collectionRepository;
+
         private Random random = new Random();
         /// <summary>
         /// Конструктор
@@ -31,6 +35,7 @@ namespace ProjectAirBomber
             InitializeComponent();
             _storageCollection = new();
             _logger = logger;
+            _collectionRepository = new CollectionRepositoryImpl();
         }
         /// <summary>
         /// Выбор компании
@@ -120,6 +125,9 @@ namespace ProjectAirBomber
                 MessageBox.Show("Объект добавлен");
                 pictureBox.Image = _company.Show();
                 _logger.LogInformation("Добавлен объект: {drawningAirplane}", saveFileDialog.FileName);
+
+                var collectionName = listBoxCollection.SelectedItem.ToString();
+                _collectionRepository.AddAirplane(collectionName, drawningAirplane);
             }
             catch (Exception ex)
             {
@@ -149,6 +157,10 @@ namespace ProjectAirBomber
                 MessageBox.Show("Объект удален");
                 pictureBox.Image = _company.Show();
                 _logger.LogInformation("Удален объект с индексом: {pos}", saveFileDialog.FileName);
+
+                var collectionName = listBoxCollection.SelectedItem.ToString();
+                DrawningAirplane? drawningAirplane = _storageCollection[listBoxCollection.SelectedItem.ToString() ?? string.Empty].Get(pos);
+                _collectionRepository.RemoveAirplane(collectionName, drawningAirplane);
             }
             catch (Exception ex)
             {
@@ -227,6 +239,7 @@ namespace ProjectAirBomber
             _storageCollection.AddCollection(textBoxCollectionName.Text, collectionType);
             RerfreshListBoxItems();
             _logger.LogInformation("Добавлена коллекция: {textBoxCollectionName.Text}", saveFileDialog.FileName);
+            _collectionRepository.Insert(textBoxCollectionName.Text, collectionType);
         }
 
         /// <summary>

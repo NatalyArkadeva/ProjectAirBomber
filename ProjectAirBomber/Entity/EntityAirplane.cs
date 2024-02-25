@@ -1,10 +1,16 @@
-﻿namespace ProjectAirBomber.Entity
+﻿using ProjectAirBomber.CollectionGenericObjects;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ProjectAirBomber.Entity
 {
     /// <summary>
     /// Класс сущность Самолет
     /// </summary>
-    public class EntityAirplane
+    public class EntityAirplane : IId
     {
+        public int Id { get; private set; }
         /// <summary>
         /// Скорость
         /// </summary>
@@ -16,19 +22,23 @@
         /// <summary>
         /// Основной цвет
         /// </summary>
-        public Color BodyColor { get; protected set; }
+        public string BodyColor { get; protected set; }
+
+        [Required]
+        public string CollectionInfoName { get; set; }
+        public virtual CollectionInfo Collection { get; set; }
         /// <summary>
         /// Шаг перемещения бомбардировщика
         /// </summary>
+        [NotMapped]
         public double Step => Speed * 100 / Weight;
-
         /// <summary>
         /// Конструктор объекта класса самолета
         /// </summary>
         /// <param name="speed"></param>
         /// <param name="weight"></param>
         /// <param name="bodyColor"></param>
-        public EntityAirplane(int speed, double weight, Color bodyColor)
+        public EntityAirplane(int speed, double weight, string bodyColor)
         {
             Speed = speed;
             Weight = weight;
@@ -40,7 +50,7 @@
         /// <param name="color"></param>
         public void ChangeColor (Color color)
         {
-            BodyColor = color;
+            BodyColor = color.Name;
         }
 
         /// <summary>
@@ -49,7 +59,7 @@
         /// <returns></returns>
         public virtual string[] GetStringRepresentation()
         {
-            return new[] { nameof(EntityAirplane), Speed.ToString(), Weight.ToString(), BodyColor.Name };
+            return new[] { nameof(EntityAirplane), Speed.ToString(), Weight.ToString(), BodyColor };
         }
         /// <summary>
         /// Создание объекта из массива строк
@@ -62,7 +72,7 @@
             {
                 return null;
             }
-            return new EntityAirplane(Convert.ToInt32(strs[1]), Convert.ToDouble(strs[2]), Color.FromName(strs[3]));
+            return new EntityAirplane(Convert.ToInt32(strs[1]), Convert.ToDouble(strs[2]), Color.FromName(strs[3]).Name);
         }
     }
 }

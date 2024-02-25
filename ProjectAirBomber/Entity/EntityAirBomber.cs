@@ -8,7 +8,7 @@
         /// <summary>
         /// Дополнительный цвет
         /// </summary>
-        public Color AdditionalColor { get; private set; }
+        public string AdditionalColor { get; private set; }
         /// <summary>
         /// Наличие дозаправки в воздухе
         /// </summary>
@@ -32,7 +32,7 @@
         /// <param name="airRefueling"></param>
         /// <param name="extraFuelTank"></param>
         /// <param name="aircraftBomb"></param>
-        public EntityAirBomber(int speed, double weight, Color bodyColor, Color additionalColor, bool airRefueling, bool extraFuelTank, bool aircraftBomb) : base(speed, weight, bodyColor)
+        public EntityAirBomber(int speed, double weight, string bodyColor, string additionalColor, bool airRefueling, bool extraFuelTank, bool aircraftBomb) : base(speed, weight, bodyColor)
         {
             AdditionalColor = additionalColor;
             AirRefueling = airRefueling;
@@ -45,12 +45,12 @@
         /// <param name="color"></param>
         public void ChangeAdditionalColor(Color color)
         {
-            AdditionalColor = color;
+            AdditionalColor = color.Name;
         }
 
         public override string[] GetStringRepresentation()
         {
-            return new[] { nameof(EntityAirBomber), Speed.ToString(), Weight.ToString(), BodyColor.Name, AdditionalColor.Name,
+            return new[] { nameof(EntityAirBomber), Speed.ToString(), Weight.ToString(), BodyColor, AdditionalColor,
                 AirRefueling.ToString(), ExtraFuelTank.ToString(), AircraftBomb.ToString() };
 
         }
@@ -65,7 +65,7 @@
             {
                 return null;
             }
-            return new EntityAirBomber(Convert.ToInt32(strs[1]), Convert.ToDouble(strs[2]), Color.FromName(strs[3]), Color.FromName(strs[4]),
+            return new EntityAirBomber(Convert.ToInt32(strs[1]), Convert.ToDouble(strs[2]), Color.FromName(strs[3]).Name, Color.FromName(strs[4]).Name,
                 Convert.ToBoolean(strs[5]), Convert.ToBoolean(strs[6]), Convert.ToBoolean(strs[7]));
         }
     }

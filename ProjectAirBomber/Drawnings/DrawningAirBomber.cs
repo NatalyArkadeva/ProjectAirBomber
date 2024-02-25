@@ -19,7 +19,7 @@ namespace ProjectAirBomber.Drawnings
         /// <param name="aircraftBomb"></param>
         public DrawningAirBomber(int speed, double weight, Color bodyColor, Color additionalColor, bool airRefueling, bool extraFuelTank, bool aircraftBomb) : base(105, 96)
         {
-            EntityAirplane = new EntityAirBomber(speed, weight, bodyColor, additionalColor, airRefueling, extraFuelTank, aircraftBomb);
+            EntityAirplane = new EntityAirBomber(speed, weight, bodyColor.Name, additionalColor.Name, airRefueling, extraFuelTank, aircraftBomb);
 
         }
 
@@ -45,7 +45,7 @@ namespace ProjectAirBomber.Drawnings
             base.Draw(g);
 
             Pen pen = new Pen(Color.Black);
-            Brush brush = new SolidBrush(airBomber.AdditionalColor);
+            Brush brush = new SolidBrush(Color.FromName(airBomber.AdditionalColor));
 
             //бомбы
             if (airBomber.AircraftBomb)

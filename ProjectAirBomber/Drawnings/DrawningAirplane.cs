@@ -71,7 +71,7 @@ namespace ProjectAirBomber.Drawnings
         /// <param name="bodyColor"></param>
         public DrawningAirplane(int speed, double weight, Color bodyColor) : this()
         {
-            EntityAirplane = new EntityAirplane(speed, weight, bodyColor);
+            EntityAirplane = new EntityAirplane(speed, weight, bodyColor.Name);
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace ProjectAirBomber.Drawnings
             g.DrawPolygon(pen, bodyPoints);
             g.FillPolygon(brush, bodyPoints);
 
-            Brush brushBody = new SolidBrush(EntityAirplane.BodyColor);
+            Brush brushBody = new SolidBrush(Color.FromName(EntityAirplane.BodyColor));
             g.DrawRectangle(pen, _startPosX.Value, _startPosY.Value + 40, 80, 16);
             g.FillRectangle(brushBody, _startPosX.Value, _startPosY.Value + 40, 80, 16);
 

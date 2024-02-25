@@ -21,9 +21,9 @@ namespace ProjectAirBomber.Drawnings
             {
                 return 1;
             }
-            if (x.EntityAirplane.BodyColor.Name != y.EntityAirplane.BodyColor.Name)
+            if (x.EntityAirplane.BodyColor == y.EntityAirplane.BodyColor)
             {
-                return x.EntityAirplane.BodyColor.Name.CompareTo(y.EntityAirplane.BodyColor.Name);
+                return x.EntityAirplane.BodyColor.CompareTo(y.EntityAirplane.BodyColor);
             }
             var speedCompare = x.EntityAirplane.Speed.CompareTo(y.EntityAirplane.Speed);
             if (speedCompare != 0)

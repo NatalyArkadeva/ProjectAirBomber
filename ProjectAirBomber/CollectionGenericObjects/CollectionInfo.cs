@@ -1,5 +1,8 @@
-﻿using System;
+﻿using ProjectAirBomber.Entity;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +17,8 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// <summary>
         /// Название
         /// </summary>
-        public string Name { get; private set; }
+        [Key]
+        public string? Name { get; private set; }
         /// <summary>
         /// Тип
         /// </summary>
@@ -22,11 +26,16 @@ namespace ProjectAirBomber.CollectionGenericObjects
         /// <summary>
         /// Описание
         /// </summary>
-        public string Description { get; private set; }
+        public string? Description { get; private set; }
+
+        [ForeignKey("CollectionInfoName")]
+        public virtual List<EntityAirplane> Airplanes { get; set; } = new();
         /// <summary>
         /// Разделитель для записи информации по объекту в файл
         /// </summary>
+        [NotMapped]
         private static readonly string _separator = "-";
+        public CollectionInfo() { }
         /// <summary>
         /// Конструктор
         /// </summary>

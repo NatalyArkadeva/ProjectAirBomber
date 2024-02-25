@@ -1,4 +1,5 @@
 ﻿using ProjectAirBomber.Drawnings;
+using ProjectAirBomber.Entity;
 using ProjectAirBomber.Exceptions;
 using System.Text;
 
@@ -8,7 +9,7 @@ namespace ProjectAirBomber.CollectionGenericObjects
     /// Класс-хранилище коллекций
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class StorageCollection<T>
+    public class StorageCollection<T>
         where T : DrawningAirplane
     {
         /// <summary>
